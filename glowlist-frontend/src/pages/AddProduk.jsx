@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function AddProduk() {
@@ -8,6 +8,15 @@ export default function AddProduk() {
         harga: "",
         id_kategori: "",
     });
+
+    const [kategori, setKategori] = useState([])
+
+    useEffect(() => {
+        fetch("http://localhost:5000/kategori")
+        .then(res => res.json())
+        .then(data => setKategori(data))
+        .catch(err => console.log(err))
+    }, []);
 
     const navigate = useNavigate();
 
@@ -78,15 +87,21 @@ export default function AddProduk() {
                 </div>
 
                 <div className="mb-3">
-                    <label className="form-label">ID Kategori</label>
-                    <input
+                    <label className="form-label">Nama Kategori</label>
+                    <select
                     type="number"
                     name="id_kategori"
                     value={formData.id_kategori}
                     onChange={handleChange}
                     className="form-control"
-                    placeholder="Masukkan ID Kategori"
-                    />
+                    placeholder="Masukkan ID kategori"
+                    >
+                        <option value="">-- Pilih Kategori --</option>
+                        <option value="1">Serum</option>
+                        <option value="2">Moisturizer</option>
+                        <option value="3">Face Wash</option>
+                        <option value="4">Body Lotion</option>
+                        </select>
                 </div>
 
                 <button type="submit" className="btn btn-success">
