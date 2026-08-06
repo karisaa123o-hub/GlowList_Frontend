@@ -36,5 +36,63 @@ export default function AddProduk() {
         }
     };
 
-    
+    return (
+        <div className="container mt-4">
+            <h2 className="mb-3">Tambah Produk</h2>
+            <form onSubmit={handleSubmit} className="card p-4 shadow-sm">
+                <div className="mb-3">
+                    <label className="form-label">Judul Produk</label>
+                    <input 
+                    type="text"
+                    name="judul"
+                    value={formData.judul}
+                    onChange={handleChange}
+                    className="form-control"
+                    placeholder="Masukkan nama produk"
+                    required
+                    />
+                </div>
+
+                <div className="mb-3">
+                    <label className="form-label">Deskripsi</label>
+                    <textarea
+                    name="deskripsi"
+                    value={formData.deskripsi}
+                    onChange={handleChange}
+                    className="form-control"
+                    placeholder="Masukkan deskripsi produk"
+                    ></textarea>
+                </div>
+
+                <div className="mb-3">
+                    <label className="form-label">Harga</label>
+                    <input
+                    type="number"
+                    name="harga"
+                    value={formData.harga}
+                    onChange={handleChange}
+                    className="form-control"
+                    placeholder="Masukkan harga"
+                    required
+                    />
+                </div>
+
+                <div className="mb-3">
+                    <label className="form-label">ID Kategori</label>
+                    <input
+                    type="number"
+                    name="id_kategori"
+                    value={formData.id_kategori}
+                    onChange={handleChange}
+                    className="form-control"
+                    placeholder="Masukkan ID Kategori"
+                    />
+                </div>
+
+                <button type="submit" className="btn btn-success">
+                    Simpan
+                </button>
+            </form>
+        </div>
+    );
 }
