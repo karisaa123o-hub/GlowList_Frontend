@@ -75,6 +75,21 @@ export default function Produk() {
                                 <td>{item.judul}</td>
                                 <td>{item.deskripsi}</td>
                                 <td>Rp. {item.harga}</td>
+
+                                <td>
+                                    <button
+                                    className="btn btn-warning btn-sm me-2"
+                                    onClick={() => handleEdit(item.id_produk)}
+                                    >
+                                        Edit
+                                    </button>
+                                    <button
+                                    className="btn btn-danger btn-sm"
+                                    onClick={() => handleDelete(item.id_produk)}
+                                    >
+                                        Delete
+                                    </button>
+                                </td>
                             </tr>
                         ))
                     ) : (
