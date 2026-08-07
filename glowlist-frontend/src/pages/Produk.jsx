@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Produk() {
     const [produk, setProduk] = useState([]);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     const getProduk = async () => {
         try{
@@ -20,6 +21,29 @@ export default function Produk() {
     useEffect(() => {
         getProduk();
     }, []);
+
+    const handleDelete = async (id) => {
+        if (window.confirm("Yakin ingin menghapus produk ini?")) {
+            try {
+                const res = await fetch(`http://localhost:5000/produk/${id}`, {
+                    method: "DELETE",
+                });
+                if (res.ok) {
+                    alert("Produk berhasil dihapus");
+                    getProduk(); // ambil ulang data terbaru
+                } else {
+                    alert("Gagal menghapus produk");
+                }
+            } catch (err) {
+                console.error("Error saat delete:", err);
+                alert("Terjadi kesalahan saat menghapus data");
+            }
+        }
+    };
+
+    const handleEdit = (id) => {
+        Navigate(`/produk/edit/${id}`);
+    };
 
     if (loading) {
         return <div className="container mt-4">Sedang memuat data...</div>;
