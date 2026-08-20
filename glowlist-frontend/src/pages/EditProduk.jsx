@@ -55,6 +55,49 @@ export default function EditProduk() {
                         className="form-control"
                     />
                 </div>
+
+                <div className="mb-3">
+                    <label className="form-label">Deskripsi</label>
+                    <textarea
+                    name="deskripsi"
+                    value={formData.deskripsi}
+                    onChange={handleChange}
+                    className="form-control"
+                    placeholder="Masukkan deskripsi produk"
+                    ></textarea>
+                </div>
+
+                <div className="mb-3">
+                    <label className="form-label">Harga</label>
+                    <input
+                    type="number"
+                    name="harga"
+                    value={formData.harga}
+                    onChange={handleChange}
+                    className="form-control"
+                    placeholder="Masukkan harga"
+                    required
+                    />
+                </div>
+
+                <div className="mb-3">
+                    <label className="form-label">Nama Kategori</label>
+                    <select
+                    type="number"
+                    name="id_kategori"
+                    value={formData.id_kategori}
+                    onChange={handleChange}
+                    className="form-control"
+                    placeholder="Masukkan ID kategori"
+                    >
+                        <option value="">-- Pilih Kategori --</option>
+                        <option value="1">Serum</option>
+                        <option value="2">Moisturizer</option>
+                        <option value="3">Face Wash</option>
+                        <option value="4">Body Lotion</option>
+                        </select>
+                </div>
+                
                 <button type="submit" className="btn btn-success me-2">
                     Simpan Perubahan
                 </button>
