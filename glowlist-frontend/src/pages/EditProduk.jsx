@@ -28,6 +28,11 @@ export default function EditProduk() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!window.confirm("Yakin ingin menyimpan perbaruan ini?")) {
+            return;
+        }
+
         await fetch(`http://localhost:5000/produk/${id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
@@ -97,7 +102,7 @@ export default function EditProduk() {
                         <option value="4">Body Lotion</option>
                         </select>
                 </div>
-                
+
                 <button type="submit" className="btn btn-success me-2">
                     Simpan Perubahan
                 </button>
