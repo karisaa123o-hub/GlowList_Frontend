@@ -42,7 +42,7 @@ export default function Produk() {
     };
 
     const handleEdit = (id) => {
-        Navigate(`/produk/edit/${id}`);
+        navigate(`/produk/edit/${id}`);
     };
 
     if (loading) {
