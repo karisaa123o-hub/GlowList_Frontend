@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-    const [formData, setFormData] = useState({ email: "", password: ""});
+    const [formData, setFormData] = useState({ email: "", password: "" });
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -41,23 +41,23 @@ export default function Login() {
                     <h1 className="h3 mb-3 fw-normal text-center">🦕 Login GlowList 🕸</h1>
                     <div className="form-floating mb-2">
                         <input
-                        type="email"
-                        name="email"
-                        className="form-control"
-                        id="floatingInput"
-                        placeholder="name@example.com"
-                        onChange={handleChange}
+                            type="email"
+                            name="email"
+                            className="form-control"
+                            id="floatingInput"
+                            placeholder="name@example.com"
+                            onChange={handleChange}
                         />
                         <label htmlFor="floatingInput">Email address</label>
                     </div>
                     <div className="form-flaoting mb-3">
                         <input
-                        type="password"
-                        name="password"
-                        className="form-control"
-                        id="floatingPassword"
-                        placeholder="password"
-                        onChange={handleChange}
+                            type="password"
+                            name="password"
+                            className="form-control"
+                            id="floatingPassword"
+                            placeholder="password"
+                            onChange={handleChange}
                         />
                         <label htmlFor="floatingPassword">Password</label>
                     </div>
