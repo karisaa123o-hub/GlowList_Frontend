@@ -1,4 +1,4 @@
-import { BrowserRouter,Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import Produk from "./pages/Produk";
@@ -20,26 +20,26 @@ function ProtectedRoute({ children }) {
 export default function App() {
   return (
     <BrowserRouter>
-    <Routes>
-      <Route path="/login" element={<Login />} />
+      <Routes>
+        <Route path="/login" element={<Login />} />
 
-      <Route
-      path="/"
-      element={
-        <ProtectedRoute>
-          <Layout />
-        </ProtectedRoute>
-      }
-      >
-      <Route path="/" element={<Layout />} />
-      <Route index element={<Home />} />
-      <Route path="produk" element={<Produk />} />
-      <Route path="kategori" element={<Kategori />} />
-      <Route path="tentang" element={<Tentang />}/>
-      <Route path="produk/tambah" element={<AddProduk />} />
-      <Route path="produk/edit/:id" element={<EditProduk />} />
-      </Route>
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <Layout />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="/" element={<Layout />} />
+          <Route index element={<Home />} />
+          <Route path="produk" element={<Produk />} />
+          <Route path="kategori" element={<Kategori />} />
+          <Route path="tentang" element={<Tentang />} />
+          <Route path="produk/tambah" element={<AddProduk />} />
+          <Route path="produk/edit/:id" element={<EditProduk />} />
+        </Route>
       </Routes>
-      </BrowserRouter>
+    </BrowserRouter>
   );
 }
