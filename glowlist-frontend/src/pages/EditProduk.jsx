@@ -10,6 +10,7 @@ export default function EditProduk() {
         harga: "",
         id_kategori: "",
     });
+    const [kategori, setKategori] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -21,6 +22,15 @@ export default function EditProduk() {
             })
             .catch((err) => console.error(err));
     }, [id]);
+
+    useEffect(() => {
+        fetch("http://localhost:5000/kategori")
+        .then((res) => res.json())
+        .then((data) => {
+            setKategori(data);
+        })
+        .catch((err) => console.error("Gagal mengambil kategori:", err));
+    }, []);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -90,18 +100,18 @@ export default function EditProduk() {
                 <div className="mb-3">
                     <label className="form-label">Nama Kategori</label>
                     <select
-                    type="number"
                     name="id_kategori"
                     value={formData.id_kategori}
                     onChange={handleChange}
                     className="form-control"
-                    placeholder="Masukkan ID kategori"
+                    required
                     >
                         <option value="">-- Pilih Kategori --</option>
-                        <option value="1">Serum</option>
-                        <option value="2">Moisturizer</option>
-                        <option value="3">Face Wash</option>
-                        <option value="4">Body Lotion</option>
+                        {kategori.map((k) => (
+                            <option key={k.id_kategori} value={k.id_kategori}>
+                                {k.kategori}
+                            </option>
+                        ))}
                         </select>
                 </div>
 
