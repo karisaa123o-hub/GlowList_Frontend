@@ -11,6 +11,7 @@ export default function EditProduk() {
         id_kategori: "",
     });
     const [kategori, setKategori] = useState([]);
+    const [file, setFile] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -43,12 +44,23 @@ export default function EditProduk() {
             return;
         }
 
+        const data = new FormData();
+
+        data.append("judul", formData.judul);
+        data.append("deskripsi", formData.deskripsi);
+        data.append("harga", formData.harga);
+        data.append("id_kategori", formData.id_kategori);
+
+        //jiak milih file baru, kirim file
+        if (file) {
+            data.append("file", file);
+        }
+
         await fetch(`http://localhost:5000/produk/${id}`, {
             method: "PUT",
-            headers: { "Content-Type": "application/json",
-                 Authorization: `Bearer ${localStorage.getItem("token")}`,
+            headers: { Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
-            body: JSON.stringify(formData),
+            body: data,
         });
         alert("Produk berhasil diperbarui!");
         navigate("/produk");
@@ -113,6 +125,17 @@ export default function EditProduk() {
                             </option>
                         ))}
                         </select>
+                </div>
+
+                <div className="mb-3">
+                    <label className="form-label">Foto Produk</label>
+                    <input
+                    type="file"
+                    name="file"
+                    onChange={(e) => setFile(e.target.files[0])}
+                    className="form-control"
+                    accept="image/*"
+                    />
                 </div>
 
                 <button type="submit" className="btn btn-success me-2">
