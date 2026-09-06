@@ -8,7 +8,7 @@ export default function AddProduk() {
         harga: "",
         id_kategori: "",
     });
-
+    const [fileBaru, setFileBaru] = useState(null);
     const [kategori, setKategori] = useState([])
 
     useEffect(() => {
@@ -26,11 +26,28 @@ export default function AddProduk() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (file && file.size > 2 * 1024 * 1024) {
+            alert("Ukuran file terlalu besar, maksimal 2MB");
+            return;
+        }
+
+        const data = new FormData();
+
+        data.append("judul", formData.judul);
+        data.append("deskripsi", formData.deskripsi);
+        data.append("harga", formData.harga);
+        data.append("id_kategori", formData.id_kategori);
+        if (fileBaru) {
+            data.append("file", fileBaru);
+        }
+
         try {
             const res = await fetch("http://localhost:5000/produk", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData),
+                headers: { Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+            body: data,
             });
             if (res.ok) {
                 alert("Produk berhasil ditambahkan!");
@@ -89,19 +106,29 @@ export default function AddProduk() {
                 <div className="mb-3">
                     <label className="form-label">Nama Kategori</label>
                     <select
-                    type="number"
                     name="id_kategori"
                     value={formData.id_kategori}
                     onChange={handleChange}
                     className="form-control"
-                    placeholder="Masukkan ID kategori"
+                    required
                     >
                         <option value="">-- Pilih Kategori --</option>
-                        <option value="1">Serum</option>
-                        <option value="2">Moisturizer</option>
-                        <option value="3">Face Wash</option>
-                        <option value="4">Body Lotion</option>
+                        {kategori.map((k) => (
+                            <option key={k.id_kategori} value={k.id_kategori}>
+                                {k.kategori}
+                            </option>
+                        ))}
                         </select>
+                </div>
+
+                <div className="mb-3">
+                    <label className="form-label">Foto Produk</label>
+                    <input
+                    type="file"
+                    accept="image/*"
+                    className="form-control"
+                    onChange={(e) => setFileBaru(e.target.files[0])}
+                    />
                 </div>
 
                 <button type="submit" className="btn btn-success">

@@ -11,8 +11,9 @@ export default function EditProduk() {
         id_kategori: "",
     });
     const [kategori, setKategori] = useState([]);
-    const [file, setFile] = useState(null);
+    const [fileBaru, setFileBaru] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [errorFile, setErrorFile] = useState("");
 
     useEffect(() => {
         fetch(`http://localhost:5000/produk/${id}`)
@@ -40,6 +41,10 @@ export default function EditProduk() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        if (errorFile) {
+            return;
+        }
+
         if (!window.confirm("Yakin ingin menyimpan perbaruan ini?")) {
             return;
         }
@@ -50,10 +55,8 @@ export default function EditProduk() {
         data.append("deskripsi", formData.deskripsi);
         data.append("harga", formData.harga);
         data.append("id_kategori", formData.id_kategori);
-
-        //jiak milih file baru, kirim file
-        if (file) {
-            data.append("file", file);
+        if (fileBaru) {
+            data.append("file", fileBaru); //hanya dikirim jika ada foto baru
         }
 
         await fetch(`http://localhost:5000/produk/${id}`, {
@@ -128,14 +131,54 @@ export default function EditProduk() {
                 </div>
 
                 <div className="mb-3">
-                    <label className="form-label">Foto Produk</label>
+                    <label className="form-label">Foto Saat Ini</label>
+                    <div>
+                        {formData.nama_file ? (
+                            <img
+                            src={`http://localhost:5000/uploads/${formData.nama_file}`}
+                            alt="Foto lama"
+                            style={{ width: "120px", borderRadius: "8px" }}
+                            />
+                        ) : (
+                            <p>Tidak ada foto</p>
+                        )}
+                    </div>
+                </div>
+
+                <div className="mb-3">
+                    <label className="form-label">Ganti Foto (opsional)</label>
                     <input
                     type="file"
-                    name="file"
-                    onChange={(e) => setFile(e.target.files[0])}
-                    className="form-control"
                     accept="image/*"
+                    className="form-control"
+                    onChange={(e) => {
+                        const file = e.target.files[0];
+
+                    if (!file) {
+                        setFileBaru(null);
+                        setErrorFile("");
+                        return;
+                    }
+
+                    const maxSize = 2 * 1024 * 1024;
+
+                    if (file.size > makSize) {
+                        alert("Ukuran file terlalu besar, maksimal 2MB");
+                        setFileBaru(null);
+                        setErrorFile("Ukuran file terlalu besar, maksimal 2MB");
+                        return;
+                    }
+
+                    setFileBaru(file);
+                    setErrorFile("");
+                    }}
                     />
+
+                    {errorFile && (
+                        <small className="text-danger">
+                            {errorFile}
+                        </small>
+                    )}
                 </div>
 
                 <button type="submit" className="btn btn-success me-2">
