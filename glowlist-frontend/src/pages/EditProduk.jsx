@@ -13,7 +13,6 @@ export default function EditProduk() {
     const [kategori, setKategori] = useState([]);
     const [fileBaru, setFileBaru] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [errorFile, setErrorFile] = useState("");
 
     useEffect(() => {
         fetch(`http://localhost:5000/produk/${id}`)
@@ -41,7 +40,8 @@ export default function EditProduk() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (errorFile) {
+        if (fileBaru && fileBaru.size > 2 * 1024 * 1024) {
+             alert("Ukuran file terlalu besar, maksimal 2MB");
             return;
         }
 
@@ -59,14 +59,24 @@ export default function EditProduk() {
             data.append("file", fileBaru); //hanya dikirim jika ada foto baru
         }
 
-        await fetch(`http://localhost:5000/produk/${id}`, {
+        try {
+            const res = await fetch(`http://localhost:5000/produk/${id}`, {
             method: "PUT",
             headers: { Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
             body: data,
         });
-        alert("Produk berhasil diperbarui!");
-        navigate("/produk");
+        if (res.ok) {
+                alert("Produk berhasil ditambahkan!");
+                navigate("/produk");
+            } else {
+                const data = await res.json();
+                alert(data.message || "Gagal menambahkan produk");
+            }
+        } catch (err) {
+            console.error("Error:", err);
+            alert("Terjadi kesalahan saat menambah produk");
+        }
     };
 
     if (loading) {
@@ -151,34 +161,10 @@ export default function EditProduk() {
                     type="file"
                     accept="image/*"
                     className="form-control"
-                    onChange={(e) => {
-                        const file = e.target.files[0];
-
-                    if (!file) {
-                        setFileBaru(null);
-                        setErrorFile("");
-                        return;
+                    onChange={(e) =>
+                        setFileBaru(e.target.files[0])
                     }
-
-                    const maxSize = 2 * 1024 * 1024;
-
-                    if (file.size > makSize) {
-                        alert("Ukuran file terlalu besar, maksimal 2MB");
-                        setFileBaru(null);
-                        setErrorFile("Ukuran file terlalu besar, maksimal 2MB");
-                        return;
-                    }
-
-                    setFileBaru(file);
-                    setErrorFile("");
-                    }}
                     />
-
-                    {errorFile && (
-                        <small className="text-danger">
-                            {errorFile}
-                        </small>
-                    )}
                 </div>
 
                 <button type="submit" className="btn btn-success me-2">

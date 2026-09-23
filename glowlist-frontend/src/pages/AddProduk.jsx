@@ -27,7 +27,8 @@ export default function AddProduk() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (file && file.size > 2 * 1024 * 1024) {
+        // Validasi ukuran file maksimal 2MB
+        if (fileBaru && fileBaru.size > 2 * 1024 * 1024) {
             alert("Ukuran file terlalu besar, maksimal 2MB");
             return;
         }
